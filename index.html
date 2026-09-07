@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FITNOVA — Student-Powered Campus Fitness Innovations</title>
+  <meta name="description" content="A student innovation platform demonstrating how creativity, technology, gamification, and community make campus fitness more accessible, enjoyable, and consistent.">
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#070a13',
+              card: '#0f172a',
+              emerald: '#10b981',
+              cyan: '#06b6d4',
+              violet: '#8b5cf6',
+              amber: '#f59e0b'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons & Canvas Confetti -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* Custom Styles */
+    .glass-card {
+      @apply bg-slate-900/40 border border-slate-800/60 backdrop-blur-md;
+    }
+
+    .glass-nav {
+      @apply bg-slate-950/40 border-b border-slate-800/40 backdrop-blur-md;
+    }
+
+    .glass-panel {
+      @apply bg-slate-900/30 border border-slate-800/50 backdrop-blur-md;
+    }
+
+    .gradient-text-emerald {
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-text-violet {
+      background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .bg-grid-pattern {
+      background-image: 
+        linear-gradient(rgba(15, 23, 42, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+
+    .ambient-glow-emerald {
+      @apply absolute w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl;
+      filter: blur(100px);
+    }
+
+    .ambient-glow-cyan {
+      @apply absolute w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl;
+      filter: blur(100px);
+    }
+
+    .ambient-glow-violet {
+      @apply absolute w-96 h-96 bg-violet-500/15 rounded-full blur-3xl;
+      filter: blur(100px);
+    }
+
+    .pulse-dot {
+      @apply w-2 h-2 bg-emerald-400 rounded-full;
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+
+    .line-clamp-2 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  </style>
+</head>
+<body class="bg-[#070a13] text-slate-100 antialiased selection:bg-emerald-500 selection:text-slate-950">
+
+  <!-- Ambient Glow Blobs -->
+  <div class="ambient-glow-emerald -top-32 -left-32"></div>
+  <div class="ambient-glow-cyan top-1/4 -right-36"></div>
+  <div class="ambient-glow-violet top-2/3 left-10"></div>
+
+  <!-- Top Competition Banner -->
+  <div class="bg-gradient-to-r from-emerald-950/90 via-slate-900 to-cyan-950/90 border-b border-emerald-500/20 py-2 px-4 text-center text-xs text-slate-300 flex items-center justify-center gap-2">
+    <span class="pulse-dot"></span>
+    <span class="font-bold text-emerald-400 uppercase tracking-wider text-[11px]">College Innovation Project</span>
+    <span class="text-slate-500">|</span>
+    <span>Theme: Student Innovations to Boost Campus Fitness &amp; Health</span>
+    <span class="hidden sm:inline text-slate-500">|</span>
+    <span class="hidden sm:inline px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 text-[10px] font-mono border border-emerald-500/20">Concept Prototype v1.0</span>
+  </div>
+
+  <!-- Sticky Glassmorphic Navbar -->
+  <header class="sticky top-0 z-40 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-3.5 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-400 p-0.5 shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9c0-1 1-2 2-2s2 1 2 2-1 2-2 2-2-1-2-2z"></path>
+              <path d="M12 9c0-1 1-2 2-2s2 1 2 2-1 2-2 2-2-1-2-2z"></path>
+              <path d="M18 9c0-1 1-2 2-2s2 1 2 2-1 2-2 2-2-1-2-2z"></path>
+              <path d="M3 22h18"></path>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-xl font-heading font-black tracking-tight text-white group-hover:text-emerald-300 transition-colors">FITNOVA</span>
+            <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">LABS</span>
+          </div>
+          <p class="text-[10px] text-slate-400 hidden sm:block">Student-powered campus fitness</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold text-slate-300">
+        <a href="#hero" class="hover:text-emerald-400 transition-colors">Home</a>
+        <a href="#problems" class="hover:text-emerald-400 transition-colors">The Problem</a>
+        <a href="#innovations" class="hover:text-emerald-400 transition-colors">Innovations</a>
+        <a href="#gamification" class="hover:text-emerald-400 transition-colors">Gamification</a>
+        <a href="#challenges" class="hover:text-emerald-400 transition-colors">Challenges</a>
+        <a href="#generator" class="hover:text-emerald-400 transition-colors">Activity Generator</a>
+        <a href="#roulette" class="hover:text-emerald-400 transition-colors">Roulette</a>
+        <a href="#impact" class="hover:text-emerald-400 transition-colors">Impact</a>
+        <a href="#submit" class="hover:text-emerald-400 transition-colors">Submit Idea</a>
+      </nav>
+
+      <!-- Right Action & Live XP Pill -->
+      <div class="flex items-center gap-3">
+        <!-- Live XP pill -->
+        <div class="flex items-center gap-2 bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-full shadow-inner">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="text-xs font-mono font-bold text-emerald-400" id="navXpDisplay">72 XP</span>
+        </div>
+
+        <a href="#submit" class="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14M5 12h14"></path>
+          </svg>
+          <span>Share Idea</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobileMenuBtn" class="lg:hidden p-2 text-slate-400 hover:text-white rounded-lg bg-slate-800/60" aria-label="Toggle Navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="6" y2="6"></line>
+            <line x1="4" x2="20" y1="12" y2="12"></line>
+            <line x1="4" x2="20" y1="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileDrawer" class="hidden lg:hidden bg-slate-950/95 border-b border-slate-800 px-4 py-4 space-y-2">
+      <a href="#hero" class="mobile-nav-link block px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-900 rounded-lg transition">Home</a>
+      <a href="#problems" class="mobile-nav-link block px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-900 rounded-lg transition">The Problem</a>
+      <a href="#innovations" class="mobile-nav-link block px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-900 rounded-lg transition">Innovations</a>
+      <a href="#gamification" class="mobile-nav-link block px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-900 rounded-lg transition">Gamification</a>
+      <a href="#challenges" class="mobile-nav-link block px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-900 rounded-lg transition">Challenges</a>
+      <a href="#generator" class="mobile-nav-link block px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-900 rounded-lg transition">Activity Generator</a>
+      <a href="#roulette" class="mobile-nav-link block px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-900 rounded-lg transition">Roulette</a>
+      <a href="#impact" class="mobile-nav-link block px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-900 rounded-lg transition">Impact</a>
+      <a href="#submit" class="mobile-nav-link block px-3 py-2 text-sm font-bold text-emerald-400 hover:bg-slate-900 rounded-lg transition">Submit Idea</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative pt-12 pb-20 lg:pt-20 lg:pb-28 overflow-hidden bg-grid-pattern">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <!-- Left Hero Content -->
+          <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path>
+              </svg>
+              <span>Student-Powered Campus Health Initiative</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight text-white leading-tight">
+              Turn Fitness Into a <br>
+              <span class="gradient-text-emerald">Campus Movement.</span>
+            </h1>
+
+            <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+              Student-driven innovations that make staying active easier, more engaging, and more accessible for everyone. No intimidating gym culture — just joyful movement, peer motivation, and real results.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+              <a href="#innovations" class="px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-slate-950 transition flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                  <polyline points="13 2 13 9 20 9"></polyline>
+                </svg>
+                <span>Explore Ideas</span>
+              </a>
+
+              <a href="#challenges" class="px-6 py-3.5 rounded-xl font-bold text-sm bg-slate-900/90 hover:bg-slate-800 text-emerald-300 border border-emerald-500/30 transition flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20M2 12h20"></path>
+                </svg>
+                <span>Start a Challenge</span>
+              </a>
+            </div>
+
+            <!-- Core Philosophy Highlight -->
+            <div class="pt-2 text-xs text-slate-400 flex items-center justify-center lg:justify-start gap-4">
+              <span class="flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+                Gamification Built-In
+              </span>
+              <span class="flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                Community Powered
+              </span>
+              <span class="flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                Low Time Commitment
+              </span>
+            </div>
+          </div>
+
+          <!-- Right Hero Visual -->
+          <div class="lg:col-span-5 relative">
+            <div class="glass-card rounded-3xl p-6 border-slate-700/60 shadow-2xl relative overflow-hidden animate-float">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+                <div class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                  <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+                  <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+                  <span class="text-xs font-mono text-slate-400 ml-2">campus-flow-radar.sys</span>
+                </div>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">LIVE STREAM</span>
+              </div>
+
+              <!-- Activity Tiles -->
+              <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 hover:border-emerald-500/40 transition">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-2xl">🏃</span>
+                    <span class="text-[10px] text-emerald-400 font-mono">+1.2k steps</span>
+                  </div>
+                  <div class="text-xs font-bold text-white">Quad Walking Trail</div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">84 students active now</div>
+                </div>
+
+                <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 hover:border-cyan-500/40 transition">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-2xl">🚴</span>
+                    <span class="text-[10px] text-cyan-400 font-mono">14 Bikes Out</span>
+                  </div>
+                  <div class="text-xs font-bold text-white">Campus Perimeter Loop</div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">Green transport hub</div>
+                </div>
+
+                <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-2xl">🏀</span>
+                    <span class="text-[10px] text-amber-400 font-mono">2 Courts Open</span>
+                  </div>
+                  <div class="text-xs font-bold text-white">3v3 Casual Pickup</div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">North Courts</div>
+                </div>
+
+                <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 hover:border-violet-500/40 transition">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-2xl">🧘</span>
+                    <span class="text-[10px] text-violet-400 font-mono">Sunset Session</span>
+                  </div>
+                  <div class="text-xs font-bold text-white">Lawn Mobility Circle</div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">Mindful calm breathing</div>
+                </div>
+              </div>
+
+              <!-- Beacon -->
+              <div class="bg-gradient-to-r from-slate-900 via-emerald-950/30 to-slate-900 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M12 6v6l4 2"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="text-xs font-bold text-slate-200">Library 10-Min Zone</div>
+                    <div class="text-[10px] text-slate-400">Next break window in 12m</div>
+                  </div>
+                </div>
+                <span class="text-xs font-mono font-bold text-emerald-400">+10 XP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics Strip -->
+        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 glass-panel rounded-2xl p-6 border border-slate-800/80 shadow-xl">
+          <div class="text-center p-3">
+            <div class="text-3xl sm:text-4xl font-heading font-black text-white flex items-center justify-center gap-1">
+              <span>10</span>
+              <span class="text-emerald-400">+</span>
+            </div>
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold mt-1">Innovation Ideas</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">Vetted for campus roll-out</div>
+          </div>
+
+          <div class="text-center p-3 border-l border-slate-800">
+            <div class="text-3xl sm:text-4xl font-heading font-black text-white flex items-center justify-center gap-1">
+              <span>500</span>
+              <span class="text-cyan-400">+</span>
+            </div>
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold mt-1">Potential Participants</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">Across 4 university blocks</div>
+          </div>
+
+          <div class="text-center p-3 border-l-0 md:border-l border-slate-800">
+            <div class="text-3xl sm:text-4xl font-heading font-black text-white flex items-center justify-center gap-1">
+              <span>30</span>
+              <span class="text-violet-400">-Day</span>
+            </div>
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold mt-1">Movement Challenges</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">Building sustainable habits</div>
+          </div>
+
+          <div class="text-center p-3 border-l border-slate-800">
+            <div class="text-3xl sm:text-4xl font-heading font-black text-emerald-400 flex items-center justify-center">
+              100%
+            </div>
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold mt-1">Community Powered</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">Built by students, for students</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEMS SECTION -->
+    <section id="problems" class="py-20 bg-[#090d16] relative border-t border-slate-800/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+          <span class="px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs font-bold border border-red-500/20 uppercase tracking-wider">
+            Campus Reality Check
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-heading font-extrabold text-white">
+            Why Do Students Struggle to Stay Active?
+          </h2>
+          <p class="text-slate-400 text-sm sm:text-base">
+            Staying fit on a modern university campus isn't a willpower failure. It's a structural design problem built around sitting, deadlines, and social barriers.
+          </p>
+        </div>
+
+        <!-- Problem Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
+          <div class="glass-card rounded-2xl p-6 border-slate-800 hover:border-red-500/40 relative group">
+            <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-4">📚</div>
+            <h3 class="text-base font-bold text-white mb-2">Heavy Academic Workload</h3>
+            <p class="text-xs text-slate-400">Back-to-back lectures and exam prep make physical movement feel like a luxury.</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 border-slate-800 hover:border-amber-500/40 relative group">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-4">⚡</div>
+            <h3 class="text-base font-bold text-white mb-2">Motivation Gap</h3>
+            <p class="text-xs text-slate-400">Vague health goals lead to rapid burnout within 10 days without gamification.</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 border-slate-800 hover:border-orange-500/40 relative group">
+            <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 mb-4">🪑</div>
+            <h3 class="text-base font-bold text-white mb-2">Sedentary Lifestyle Trap</h3>
+            <p class="text-xs text-slate-400">Students average over 9.5 hours of continuous stillness per day.</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 border-slate-800 hover:border-rose-500/40 relative group">
+            <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 mb-4">🚪</div>
+            <h3 class="text-base font-bold text-white mb-2">Limited Facility Access</h3>
+            <p class="text-xs text-slate-400">College gyms are overcrowded or situated far from residential areas.</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 border-slate-800 hover:border-yellow-500/40 relative group">
+            <div class="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-400 mb-4">⏰</div>
+            <h3 class="text-base font-bold text-white mb-2">Perceived Lack of Time</h3>
+            <p class="text-xs text-slate-400">Students overlook the value of 5-10 minute micro-sessions.</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 border-slate-800 hover:border-purple-500/40 relative group">
+            <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-4">😴</div>
+            <h3 class="text-base font-bold text-white mb-2">Repetitive Routines</h3>
+            <p class="text-xs text-slate-400">Monotonous exercises create boredom. Students crave novelty.</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 border-slate-800 hover:border-blue-500/40 relative group md:col-span-2 lg:col-span-2">
+            <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-4">👥</div>
+            <h3 class="text-base font-bold text-white mb-2">Difficulty Finding Workout Partners</h3>
+            <p class="text-xs text-slate-400">Most students want casual activities but lack a system to coordinate with peers.</p>
+          </div>
+        </div>
+
+        <!-- Key Thesis -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-950/40 via-slate-900 to-cyan-950/40 border border-emerald-500/30 text-center max-w-4xl mx-auto shadow-2xl">
+          <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center mb-4">💡</div>
+          <blockquote class="text-xl sm:text-2xl font-heading font-bold text-white">
+            "The solution isn't always a bigger gym. <br class="hidden sm:inline">
+            <span class="gradient-text-emerald">Sometimes, it's a better idea."</span>
+          </blockquote>
+          <p class="text-xs text-slate-400 mt-2">
+            By shifting from rigid workout regimes to ambient, social campus nudges, we make physical well-being second nature.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INNOVATIONS SECTION -->
+    <section id="innovations" class="py-20 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+          <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold border border-emerald-500/20">
+            ✨ Interactive Concept Catalog
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-heading font-extrabold text-white">
+            Student Innovation Hub
+          </h2>
+          <p class="text-slate-400 text-sm">
+            10 creative, low-friction concepts designed to transform campus architecture, social routines, and study blocks into healthy movement.
+          </p>
+        </div>
+
+        <!-- Sample Innovation Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Card 1 -->
+          <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group hover:border-emerald-500/40 relative overflow-hidden transition-all duration-300">
+            <div class="absolute -top-12 -right-12 w-28 h-28 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all pointer-events-none"></div>
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="font-mono text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">#01</span>
+                <div class="flex items-center gap-1.5 text-xs text-slate-400">
+                  <span class="text-emerald-400 font-bold">94</span>
+                  <span>/100 Score</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-2">Campus Fitness Quest</h3>
+              <p class="text-sm text-slate-300 mb-4">Turn the campus into an interactive fitness map where students complete walking, running, and location-based challenges.</p>
+              <div class="bg-slate-900/60 rounded-xl p-3 border border-slate-800/80 mb-4">
+                <span class="text-[11px] font-semibold text-slate-400 uppercase">Problem Addressed:</span>
+                <p class="text-xs text-slate-300 mt-1">Campus walks feel monotonous; students avoid moving between distant blocks.</p>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800/90 text-slate-300">Technology</span>
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800/90 text-slate-300">Gamification</span>
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800/90 text-slate-300">Campus</span>
+              </div>
+            </div>
+            <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between mt-4">
+              <span class="text-xs font-semibold px-2 py-0.5 rounded text-cyan-400 bg-cyan-500/10">Medium</span>
+              <button class="px-4 py-2 text-xs font-semibold rounded-xl bg-emerald-500/15 hover:bg-emerald-500 text-emerald-300 hover:text-slate-950 border border-emerald-500/30 transition">View →</button>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group hover:border-emerald-500/40 relative overflow-hidden transition-all duration-300">
+            <div class="absolute -top-12 -right-12 w-28 h-28 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all pointer-events-none"></div>
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="font-mono text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">#02</span>
+                <div class="flex items-center gap-1.5 text-xs text-slate-400">
+                  <span class="text-emerald-400 font-bold">89</span>
+                  <span>/100 Score</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-2">Step Battle: Department Rivalry</h3>
+              <p class="text-sm text-slate-300 mb-4">Friendly team-based step challenges between classes or departments with collective milestone rewards.</p>
+              <div class="bg-slate-900/60 rounded-xl p-3 border border-slate-800/80 mb-4">
+                <span class="text-[11px] font-semibold text-slate-400 uppercase">Problem Addressed:</span>
+                <p class="text-xs text-slate-300 mt-1">Individual exercise lacks social accountability and peer excitement.</p>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800/90 text-slate-300">Gamification</span>
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800/90 text-slate-300">Community</span>
+              </div>
+            </div>
+            <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between mt-4">
+              <span class="text-xs font-semibold px-2 py-0.5 rounded text-emerald-400 bg-emerald-500/10">Low</span>
+              <button class="px-4 py-2 text-xs font-semibold rounded-xl bg-emerald-500/15 hover:bg-emerald-500 text-emerald-300 hover:text-slate-950 border border-emerald-500/30 transition">View →</button>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="glass-card rounded-2xl p-6 flex flex-col justify-between group hover:border-emerald-500/40 relative overflow-hidden transition-all duration-300">
+            <div class="absolute -top-12 -right-12 w-28 h-28 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all pointer-events-none"></div>
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="font-mono text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">#03</span>
+                <div class="flex items-center gap-1.5 text-xs text-slate-400">
+                  <span class="text-emerald-400 font-bold">86</span>
+                  <span>/100 Score</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-2">10-Minute Fitness Zones</h3>
+              <p class="text-sm text-slate-300 mb-4">Designated micro-activity pods around campus for rapid movement sessions between lectures.</p>
+              <div class="bg-slate-900/60 rounded-xl p-3 border border-slate-800/80 mb-4">
+                <span class="text-[11px] font-semibold text-slate-400 uppercase">Problem Addressed:</span>
+                <p class="text-xs text-slate-300 mt-1">Students have 10-15 minute gaps with nowhere accessible to move.</p>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800/90 text-slate-300">Campus</span>
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800/90 text-slate-300">Low Cost</span>
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800/90 text-slate-300">Wellness</span>
+              </div>
+            </div>
+            <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between mt-4">
+              <span class="text-xs font-semibold px-2 py-0.5 rounded text-emerald-400 bg-emerald-500/10">Low</span>
+              <button class="px-4 py-2 text-xs font-semibold rounded-xl bg-emerald-500/15 hover:bg-emerald-500 text-emerald-300 hover:text-slate-950 border border-emerald-500/30 transition">View →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBMIT SECTION -->
+    <section id="submit" class="py-20 bg-gradient-to-b from-slate-900 to-[#090d16] border-t border-slate-800/60">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl sm:text-4xl font-heading font-extrabold text-white mb-4">
+          Have Your Own Fitness Innovation?
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base mb-8 max-w-2xl mx-auto">
+          Students, faculty, and staff can submit creative ideas to enhance campus fitness culture. We're looking for concepts that are low-cost, scalable, and make movement naturally part of student life.
+        </p>
+        <button class="px-8 py-4 rounded-xl font-bold text-base bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-slate-950 transition">
+          Submit Your Idea
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-800/60 py-8 bg-slate-950/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-400">
+      <p>FITNOVA — Student-Powered Campus Fitness Innovations © 2024</p>
+      <p class="mt-2">Built by students, for students 🏃‍♀️🧘‍♂️🚴‍♀️</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileDrawer.classList.toggle('hidden');
+    });
+
+    // Close menu when link is clicked
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.add('hidden');
+      });
+    });
+
+    // Smooth scroll behavior
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Counter animation
+    function animateCounters() {
+      const counters = document.querySelectorAll('[data-target]');
+      counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const increment = target / 100;
+        let current = 0;
+
+        const updateCounter = () => {
+          current += increment;
+          if (current < target) {
+            counter.textContent = Math.ceil(current);
+            requestAnimationFrame(updateCounter);
+          } else {
+            counter.textContent = target;
+          }
+        };
+        updateCounter();
+      });
+    }
+
+    // Trigger animation when section is visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+
+    const heroSection = document.getElementById('hero');
+    if (heroSection) observer.observe(heroSection);
+  </script>
+</body>
+</html>
